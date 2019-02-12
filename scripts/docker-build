@@ -1,7 +1,12 @@
 #!/usr/bin/env sh
 
-app=$1
+app="$1"
 tag="$2"
+
+if [ "$app" == "" ]; then
+  echo "please specify app name, example: docker_build my-mega-app"
+  exit 1
+fi
 
 if [ "$tag" != "" ]; then
   docker build --rm=false -t "$app" .
