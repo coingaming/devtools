@@ -2,6 +2,11 @@
 
 Dev tools
 
+```
+mix docker_build
+mix diocker_push
+```
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
