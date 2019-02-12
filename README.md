@@ -3,7 +3,7 @@
 Dev tools
 
 ```
-mix docker_build
+mix docker_build your-app-name
 mix diocker_push
 ```
 
