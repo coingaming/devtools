@@ -4,7 +4,7 @@ app="$1"
 tag="$2"
 
 if [ "$app" == "" ]; then
-  echo "please specify app name, example: docker_build my-mega-app"
+  echo "please specify app name, example: mix docker_build my-mega-app"
   exit 1
 fi
 

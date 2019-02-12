@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+app="$1"
+image="$2"
+
+
+if [ "$app" == "" ]; then
+  echo "please specify app name, example: mix remote-console my-mega-app orgname/image"
+  exit 1
+fi
+
+if [ "$app" == "" ]; then
+  echo "please specify image name, example: mix remote-console my-mega-app orgname/image"
+  exit 1
+fi
+
+if [ "$DOCKER_HOST" == "" ]; then
+  echo "please set DOCKER_HOST env var"
+  exit 1
+fi
+
+CONTAINER=$(docker -H $DOCKER_HOST ps | grep "$image" | awk '{print $1;}')
+
+docker exec -it $CONTAINER bin/"$app" remote_console
