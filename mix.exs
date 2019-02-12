@@ -22,7 +22,7 @@ defmodule Devtools.MixProject do
   defp package do
     [
       name: "devtools",
-      files: ["lib", "scripts",mix hex.publish  "mix.exs", "README*"],
+      files: ["lib", "scripts", "mix.exs", "README*"],
       maintainers: ["ekaterinak@heathmont.net"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/coingaming/devtools"}
