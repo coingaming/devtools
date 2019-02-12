@@ -7,7 +7,9 @@ defmodule Devtools.MixProject do
       version: "0.1.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      description: description(),
+      package: package()
     ]
   end
 
@@ -16,9 +18,11 @@ defmodule Devtools.MixProject do
     Dev tools
     """
   end
+
   defp package do
     [
-      files: ["lib", "mix.exs", "README*"],
+      name: "devtools",
+      files: ["lib", "scripts",mix hex.publish  "mix.exs", "README*"],
       maintainers: ["ekaterinak@heathmont.net"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/coingaming/devtools"}
