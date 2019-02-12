@@ -12,7 +12,7 @@ mix diocker_push
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 by adding `devtools` to your list of dependencies in `mix.exs`:
 
-```elixir
+```
 def deps do
   [
     {:devtools, "~> 0.1.0"}
