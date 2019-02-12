@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+app=$1
+tag="$2"
+
+if [ "$tag" != "" ]; then
+  docker push "$app:latest"
+  docker push "$app:$tag"
+else
+  branch=$(git rev-parse --abbrev-ref HEAD | cut -f2 -d"/")
+  branch=${branch:-master}
+
+  docker push "$app:$branch"
+fi
