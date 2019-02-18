@@ -1,10 +1,9 @@
 defmodule Mix.Tasks.Devtools.DockerPush do
   use Mix.Task
   
-  @path "#{__DIR__}/../../../../scripts"
-
   @shortdoc "Docker push"
   def run(args) do
-    {_, 0} = System.cmd("#{@path}/docker-push", args) |> IO.inspect
+    path = Path.join(File.cwd!(), "/scripts/docker-push")
+    {_, 0} = System.cmd(path, args) |> IO.inspect
   end
 end
