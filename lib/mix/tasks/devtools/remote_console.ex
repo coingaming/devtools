@@ -3,7 +3,7 @@ defmodule Mix.Tasks.Devtools.RemoteConsole do
 
   @shortdoc "Remote console"
   def run(args) do
-    path = Path.join(File.cwd!(), "/scripts/remote-console")
+    path = Path.join(File.cwd!(), "/deps/devtools/scripts/remote-console")
     {_, 0} = System.cmd(path, args) |> IO.inspect
   end
 end

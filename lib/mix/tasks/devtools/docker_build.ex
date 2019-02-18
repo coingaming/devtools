@@ -3,7 +3,7 @@ defmodule Mix.Tasks.Devtools.DockerBuild do
 
   @shortdoc "Docker build"
   def run(args) do    
-    path = Path.join(File.cwd!(), "/scripts/docker-build")
+    path = Path.join(File.cwd!(), "/deps/devtools/scripts/docker-build")
     {_, 0} = System.cmd(path, args) |> IO.inspect
   end
 end
