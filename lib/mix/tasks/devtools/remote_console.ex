@@ -1,10 +1,11 @@
 defmodule Mix.Tasks.Devtools.RemoteConsole do
   use Mix.Task
 
-  @path "#{__DIR__}/../../../../scripts"
+  alias Mix.Tasks.Devtools.Common
 
   @shortdoc "Remote console"
   def run(args) do
-    {_, 0} = System.cmd("#{@path}/remote-console", args) |> IO.inspect
+    path = "#{Common.path}/remote-console"
+    {_, 0} = System.cmd(path, args) |> IO.inspect
   end
 end

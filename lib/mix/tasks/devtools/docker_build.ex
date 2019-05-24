@@ -1,10 +1,11 @@
 defmodule Mix.Tasks.Devtools.DockerBuild do
   use Mix.Task
 
-  @path "#{__DIR__}/../../../../scripts"
-  
+  alias Mix.Tasks.Devtools.Common
+
   @shortdoc "Docker build"
-  def run(args) do
-    {_, 0} = System.cmd("#{@path}/docker-build", args) |> IO.inspect
+  def run(args) do    
+    path = "#{Common.path}/docker-build"
+    {_, 0} = System.cmd(path, args) |> IO.inspect
   end
 end

@@ -18,9 +18,14 @@ fi
 
 version="$minor.$patch"
 
-echo "updating version in mix file"
+echo "updating version in mix file from ${prev_version} to ${version}"
 
-sed -i '' -e "/version/s/${prev_version/v/}/${version/v/}/g" mix.exs
+if [ "$prev_version" == "" ]
+then
+    echo "no prev version.. skipping"
+else
+    sed -i '' -e "/version/s/${prev_version/v/}/${version/v/}/g" mix.exs
+fi
 
 git add mix.exs
 git commit -m "Update version in mix.exs to ${version/v/}"
