@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Devtools.Release do
+defmodule Mix.Tasks.Devtools.Patch do
   use Mix.Task
 
   alias Mix.Tasks.Devtools.Common

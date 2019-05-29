@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Devtools.Release do
+defmodule Mix.Tasks.Devtools.Minor do
   use Mix.Task
 
   alias Mix.Tasks.Devtools.Common
