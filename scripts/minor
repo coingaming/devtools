@@ -4,9 +4,7 @@ set -e
 
 echo "making release"
 
-major="v1"
-prev_version=$(git tag -l "$major.*" --sort -version:refname | head -n 1)
-
+prev_version=$(cat mix.exs| grep "version: " | sed -e 's/.*version: "\(.*\)",/\1/')
 
 if [ "$prev_version" == "" ]
 then
@@ -15,6 +13,8 @@ else
     prev_minor=$(echo "$prev_version" | cut -d . -f 2)
     minor=$((prev_minor+1))
 fi
+
+major=$(echo $prev_version| awk '{ print substr($1, 0, index($1, ".")) }')
 
 version="$major.$minor.0"
 
@@ -33,5 +33,5 @@ git push origin master
 
 echo "set tag"
 
-git tag $version
+git tag "v$version"
 git push --tags
