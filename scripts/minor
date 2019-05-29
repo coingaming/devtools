@@ -16,7 +16,7 @@ fi
 
 major=$(echo $prev_version| awk '{ print substr($1, 0, index($1, ".")) }')
 
-version="$major.$minor.0"
+version="$major$minor.0"
 
 echo "updating version in mix file from ${prev_version} to ${version}"
 
