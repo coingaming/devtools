@@ -26,7 +26,7 @@ end
 # Release
 
 ```
-./scripts/release
+./scripts/patch
 mix hex.publish
 ```
 
