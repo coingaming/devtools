@@ -6,6 +6,7 @@ Dev tools
 mix devtools.docker_build your-app-name
 mix devtools.docker_push
 mix devtools.remote_console my-mega-app orgname/image
+mix 
 ```
 
 ## Installation
