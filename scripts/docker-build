@@ -9,11 +9,17 @@ if [ "$app" == "" ]; then
 fi
 
 if [ "$tag" != "" ]; then
-  docker build --rm=false -t "$app" .
+  docker build \
+    --rm=false -t \
+    --build-arg HEX_API_KEY="$HEX_API_KEY" \
+    "$app" .
   docker tag $app "$app:$tag"
 else
   branch=$(git rev-parse --abbrev-ref HEAD | cut -f2 -d"/")
   branch=${branch:-master}
 
-  docker build --rm=false -t "$app:$branch" .
+  docker build \
+    --rm=false -t \
+    --build-arg HEX_API_KEY="$HEX_API_KEY" \
+    "$app:$branch" .
 fi
