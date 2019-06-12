@@ -1,6 +1,8 @@
 defmodule Mix.Tasks.Devtools.CopyMigrations do
   use Mix.Task
 
+  require Logger
+
   alias Mix.Tasks.Devtools.Common
 
   @shortdoc "Copy migrations"
@@ -20,6 +22,7 @@ defmodule Mix.Tasks.Devtools.CopyMigrations do
       end
       |> Path.join(Common.migrations_path())
 
-    File.cp_r(migrations_copy_from, migrations_copy_to)
+    Logger.info("Copying migrations from #{migrations_copy_from} to #{migrations_copy_to}")
+    File.cp_r!(migrations_copy_from, migrations_copy_to)
   end
 end
