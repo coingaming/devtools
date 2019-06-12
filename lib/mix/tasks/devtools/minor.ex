@@ -5,7 +5,7 @@ defmodule Mix.Tasks.Devtools.Minor do
 
   @shortdoc "Minor version change + tag creation"
   def run(args) do
-    path = "#{Common.path}/minor"
+    path = "#{Common.scripts_path}/minor"
     {_, 0} = System.cmd(path, args) |> IO.inspect
   end
 end
