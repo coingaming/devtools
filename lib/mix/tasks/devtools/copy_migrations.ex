@@ -7,9 +7,9 @@ defmodule Mix.Tasks.Devtools.CopyMigrations do
 
   @shortdoc "Copy migrations"
   def run(_args) do
-    migrations_copy_from = Path.join(Common.root_path(), Common.migrations_path())
+    migrations_copy_to = Path.join(Common.root_path(), Common.migrations_path())
 
-    migrations_copy_to =
+    migrations_copy_from =
       case Common.root_path() |> String.split("/") |> List.last() do
         "loyalty-api" ->
           Path.join(Common.root_path(), "../loyalty-worker")
