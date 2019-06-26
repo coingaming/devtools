@@ -17,8 +17,8 @@ defmodule Mix.Tasks.Devtools.CopyMigrations do
         "loyalty-worker" ->
           Path.join(Common.root_path(), "../loyalty-api")
 
-        _ ->
-          Path.join(Common.root_path(), "../loyalty-api")
+        path ->
+          raise "Can not get project: #{path}"
       end
       |> Path.join(Common.migrations_path())
 
