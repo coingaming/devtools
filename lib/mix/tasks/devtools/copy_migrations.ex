@@ -9,10 +9,6 @@ defmodule Mix.Tasks.Devtools.CopyMigrations do
   def run(_args) do
     migrations_copy_to = Path.join(Common.root_path(), Common.migrations_path())
 
-    Logger.info("Common root path: #{Common.root_path()}")
-    Logger.info("CurrentProject: #{current_project}")
-    Logger.info("Copy to: #{migrations_copy_to}")
-
     migrations_copy_from =
       case current_project do
         "loyalty-api" ->
