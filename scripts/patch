@@ -17,23 +17,17 @@ then
         next_patch=$((patch+1))
     fi
 
-    echo "Updating version in mix file from ${major}.${minor}.${patch} to ${major}.${minor}.${next_patch}"
+    prev_version="$major.$minor.$patch"
+    version="$major.$minor.$next_patch"
+
+    echo "Updating version in mix file from ${prev_version} to ${version}"
 
     if [ "$major.$minor.$patch" == ".." ]
     then
         echo "no prev version.. skipping"
     else
-        sed -i "/version/s/$major.$minor.$patch/$major.$minor.$next_patch/g" mix.exs
+        sed -i "/version/s/$prev_version/$version/g" mix.exs
     fi
-
-    echo "Pushing git tag:"
-
-    git add mix.exs
-    git commit -m "Update version in mix.exs to $major.$minor.$patch/v/}"
-    git push origin master
-
-    git tag "v$major.$minor.$patch"
-    git push --tags
 elif [[ "$OSTYPE" == "darwin"* ]];
 then
     prev_version=$(cat mix.exs| grep "version: " | sed -e 's/.*version: "\(.*\)",/\1/')
@@ -58,15 +52,6 @@ then
     else
         sed -i '' -e "/version/s/${prev_version/v/}/${version/v/}/g" mix.exs
     fi
-
-    git add mix.exs
-    git commit -m "Update version in mix.exs to ${version/v/}"
-    git push origin master
-
-    echo "set tag"
-
-    git tag "v$version"
-    git push --tags
 elif [[ "$OSTYPE" == "msys" ]];
 then
     prev_version=$(cat mix.exs| grep "version: " | sed -e 's/.*version: "\(.*\)",/\1/')
@@ -90,16 +75,17 @@ then
     else
         sed -i "/version/s/${prev_version/v/}/${version/v/}/g" mix.exs
     fi
-
-    git add mix.exs
-    git commit -m "Update version in mix.exs to ${version/v/}"
-    git push origin master
-
-    echo "set tag"
-
-    git tag "v$version"
-    git push --tags
-
 else
     echo "We are on dishwasher. Can't start"
+    exit 1
 fi
+
+echo "Pushing git tag:"
+
+git add mix.exs
+git commit -m "Update version in mix.exs to $version"
+git push origin master
+
+git tag "v$version"
+git push --tags
+
