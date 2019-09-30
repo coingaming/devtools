@@ -4,27 +4,54 @@ set -e
 
 echo "making release"
 
-prev_version=$(cat mix.exs| grep "version: " | sed -e 's/.*version: "\(.*\)",/\1/')
-
-if [ "$prev_version" == "" ]
+if [[ "$OSTYPE" == "darwin"* ]];
 then
-    minor="1"
-else
-    prev_minor=$(echo "$prev_version" | cut -d . -f 2)
-    minor=$((prev_minor+1))
-fi
+    prev_version=$(cat mix.exs| grep "version: " | sed -e 's/.*version: "\(.*\)",/\1/')
 
-major=$(echo $prev_version| awk '{ print substr($1, 0, index($1, ".")) }')
+    if [ "$prev_version" == "" ]
+    then
+        minor="1"
+    else
+        prev_minor=$(echo "$prev_version" | cut -d . -f 2)
+        minor=$((prev_minor+1))
+    fi
 
-version="$major$minor.0"
+    major=$(echo $prev_version| awk '{ print substr($1, 0, index($1, ".")) }')
 
-echo "updating version in mix file from ${prev_version} to ${version}"
+    version="$major$minor.0"
 
-if [ "$prev_version" == "" ]
+    echo "updating version in mix file from ${prev_version} to ${version}"
+
+    if [ "$prev_version" == "" ]
+    then
+        echo "no prev version.. skipping"
+    else
+        sed -i '' -e "/version/s/${prev_version/v/}/${version/v/}/g" mix.exs
+    fi
+elif [[ "$OSTYPE" == "linux-gnu" ]];
 then
-    echo "no prev version.. skipping"
-else
-    sed -i '' -e "/version/s/${prev_version/v/}/${version/v/}/g" mix.exs
+    major=$(cat mix.exs | grep "version: " | sed -re 's/version: "([0-9]*)\.([0-9]*)\.([0-9]*)",/\1/g' | sed -r 's/ //g')
+    minor=$(cat mix.exs | grep "version: " | sed -re 's/version: "([0-9]*)\.([0-9]*)\.([0-9]*)",/\2/g'| sed -r 's/ //g')
+    patch=$(cat mix.exs | grep "version: " | sed -re 's/version: "([0-9]*)\.([0-9]*)\.([0-9]*)",/\3/g'| sed -r 's/ //g')
+
+    if [ "$minor" == "" ]
+    then
+        next_minor="0"
+    else
+        next_minor=$((minor+1))
+    fi
+
+    prev_version="$major.$minor.$patch"
+    version="$major.$next_minor.0"
+
+    echo "Updating version in mix file from ${prev_version} to ${version}"
+
+    if [ "$major.$minor.$patch" == ".." ]
+    then
+        echo "no prev version.. skipping"
+    else
+        sed -i "/version/s/$prev_version/$version/g" mix.exs
+    fi
 fi
 
 git add mix.exs
