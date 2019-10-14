@@ -52,10 +52,10 @@ fi
 
 echo "Pushing git tag:"
 
-# git add mix.exs
-# git commit -m "Update version in mix.exs to $version"
-# git push origin master
+git add mix.exs
+git commit -m "Update version in mix.exs to $version"
+git push origin master
 
-# git tag "v$version"
-# git push --tags
+git tag "v$version"
+git push --tags
 
