@@ -1,3 +1,3 @@
 app: :devtools,
-version: "1.3.2-0",
+version: "1.3.2-1",
 elixir: "~> 1.7",
