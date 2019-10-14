@@ -28,6 +28,30 @@ then
     else
         sed -i '' -e "/version/s/${prev_version/v/}/${version/v/}/g" mix.exs
     fi
+elif [[ "$OSTYPE" == "msys" ]];
+then
+    prev_version=$(cat mix.exs| grep "version: " | sed -e 's/.*version: "\(.*\)",/\1/')
+    
+    if [ "$prev_version" == "" ]
+    then
+        minor="1"
+    else
+        prev_minor=$(echo "$prev_version" | cut -d . -f 2)
+        minor=$((prev_minor+1))
+    fi
+
+
+    minor=$(echo $prev_version| awk '{ print substr($1, 0, index($1, ".")) }')
+    version="$minor.$patch"
+
+    echo "updating version in mix file from ${prev_version} to ${version}"
+
+    if [ "$prev_version" == "" ]
+    then
+        echo "no prev version.. skipping"
+    else
+        sed -i "/version/s/${prev_version/v/}/${version/v/}/g" mix.exs
+    fi
 elif [[ "$OSTYPE" == "linux-gnu" ]];
 then
     major=$(cat mix.exs | grep "version: " | sed -re 's/version: "([0-9]*)\.([0-9]*)\.([0-9]*)",/\1/g' | sed -r 's/ //g')
