@@ -10,7 +10,7 @@ defmodule Mix.Tasks.Devtools.CopyMigrations do
     migrations_copy_to = Path.join(Common.root_path(), Common.migrations_path())
 
     migrations_copy_from =
-      case current_project do
+      case current_project() do
         "loyalty-api" ->
           Path.join(Common.root_path(), "../loyalty-worker")
 
