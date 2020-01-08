@@ -3,14 +3,18 @@ defmodule DevtoolsTest do
 
   setup_all do
     on_exit(fn ->
-      System.cmd(
-        "git",
-        ~w[checkout .],
-        stderr_to_stdout: true
-      )
+      checkout()
     end)
 
     :ok
+  end
+
+  def checkout() do
+    System.cmd(
+      "git",
+      ~w[checkout mix.exs],
+      stderr_to_stdout: true
+    )
   end
 
   describe "pre-release" do
@@ -19,9 +23,12 @@ defmodule DevtoolsTest do
     end
 
     test "writes pre-release to mix.exs" do
+      checkout()
+      refute String.contains?(File.read!("mix.exs"), "1.0.0-0")
+
       Mix.Tasks.Devtools.Pre.run("v1.0.0")
 
-      assert String.contains?(File.read!("mix.exs"), "v1.0.0")
+      assert String.contains?(File.read!("mix.exs"), "1.0.0-0")
     end
   end
 end
