@@ -21,7 +21,7 @@ defmodule DevtoolsTest do
     test "writes pre-release to mix.exs" do
       Mix.Tasks.Devtools.Pre.run("v1.0.0")
 
-      result = assert String.match?(File.read!("mix.exs"), ~r/version:\s"\d+\.\d+\.\d+(-\d+)?\"/)
+      assert String.contains?(File.read!("mix.exs"), "v1.0.0")
     end
   end
 end
