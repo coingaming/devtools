@@ -66,6 +66,7 @@ defmodule Mix.Tasks.Devtools.Pre do
     |> Stream.run()
 
     File.cp!("output.tx", "mix.exs")
+    File.rm!("output.tx")
 
     add_v_back(new_version)
   end
