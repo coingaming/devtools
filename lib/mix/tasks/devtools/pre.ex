@@ -3,39 +3,16 @@ defmodule Mix.Tasks.Devtools.Pre do
 
   require Logger
 
-  @version_regex ~r/version:\s\"(.*)\"/
+  alias Mix.Tasks.Devtools.Versions
+
   @pre_release_regex ~r/(\d{1,})-(\d{1,})/
 
   @shortdoc "Version patch + tag creation"
   def run(_args) do
-    with {:ok, content} <- File.read("mix.exs"),
-         {:ok, current_version} <- get_current_version(content),
-         {:ok, new_version} <- pre_release(current_version),
-         {:ok, new_content} <- content_replace(content, current_version, new_version) do
-      File.write("mix.exs", new_content)
-    end
+    Versions.increment(&File.read/1, &File.write/2, &pre_release/1, "mix.exs")
   end
 
   # private 
-
-  defp get_current_version(content) when is_binary(content) do
-    @version_regex
-    |> Regex.run(content)
-    |> case do
-      nil ->
-        {:error,
-         "version not found, it should be explicitly set in mix.exs as version: \"n.n.n\""}
-
-      values ->
-        if length(values) >= 2 do
-          [_, version] = values
-          {:ok, version}
-        else
-          {:error,
-           "mailformed version,  it should be explicitly set in mix.exs as version: \"n.n.n\""}
-        end
-    end
-  end
 
   defp pre_release(current_version) when is_binary(current_version) do
     values = String.split(current_version, ".")
@@ -87,10 +64,5 @@ defmodule Mix.Tasks.Devtools.Pre do
     else
       {:error, "can not increment pre-release"}
     end
-  end
-
-  defp content_replace(content, current_version, new_version) do
-    {:ok,
-     String.replace(content, "version: \"#{current_version}\"", "version: \"#{new_version}\"")}
   end
 end
