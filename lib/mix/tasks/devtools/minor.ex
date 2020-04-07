@@ -16,12 +16,12 @@ defmodule Mix.Tasks.Devtools.Minor do
     minor
     |> increment_old_minor
     |> case do
-      {:ok, new_pre_release} ->
-        {:ok, construct_new_pre_release(version, new_pre_release)}
+      {:ok, new_release} ->
+        {:ok, construct_new_release(version, new_release)}
     end
   end
 
-  defp construct_new_pre_release(values, new_minor) do
+  defp construct_new_release(values, new_minor) do
     [major, _minor, _] = values
     "#{major}.#{new_minor}.0"
   end
