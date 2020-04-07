@@ -1,7 +1,7 @@
 defmodule Mix.Tasks.Devtools.RemoteConsole do
   use Mix.Task
 
-  alias Mix.Tasks.Devtools.Common
+  alias Mix.Devtools.Common
 
   @shortdoc "Remote console"
   def run(args) do

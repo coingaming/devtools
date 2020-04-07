@@ -3,11 +3,17 @@ defmodule Mix.Tasks.Devtools.Minor do
 
   require Logger
 
-  alias Mix.Tasks.Devtools.Versions
+  alias Mix.Devtools.Versions
 
   @shortdoc "Version patch + tag creation"
   def run(_args) do
-    Versions.increment(&File.read/1, &File.write/2, &minor/1, "mix.exs")
+    %Versions{
+      content_getter: &File.read/1,
+      content_setter: &File.write/2,
+      incrementer: &minor/1,
+      file_name: "mix.exs"
+    }
+    |> Versions.increment()
   end
 
   # private 

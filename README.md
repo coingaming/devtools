@@ -30,7 +30,7 @@ end
 # Release
 
 ```
-./scripts/patch
+mix run -e "Mix.Tasks.Devtools.Patch.run([])"
 mix hex.publish
 ```
 

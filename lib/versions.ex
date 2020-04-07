@@ -1,9 +1,18 @@
-defmodule Mix.Tasks.Devtools.Versions do
+defmodule Mix.Devtools.Versions do
   require Logger
+
+  alias __MODULE__, as: Versions
 
   @version_regex ~r/version:\s\"(.*)\"/
 
-  def increment(content_getter, content_setter, incrementer, file_name) do
+  defstruct [:content_getter, :content_setter, :incrementer, :file_name]
+
+  def increment(%Versions{
+        content_getter: content_getter,
+        content_setter: content_setter,
+        incrementer: incrementer,
+        file_name: file_name
+      }) do
     with {:ok, content} <- content_getter.(file_name),
          {:ok, [major, minor, patch] = current_version} <- get_current_version(content),
          {:ok, new_version} <- incrementer.(current_version),

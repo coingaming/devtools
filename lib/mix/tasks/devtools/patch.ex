@@ -3,24 +3,30 @@ defmodule Mix.Tasks.Devtools.Patch do
 
   require Logger
 
-  alias Mix.Tasks.Devtools.Versions
+  alias Mix.Devtools.Versions
 
   @patch_regex ~r/(\d{1,})-(\d{1,})/
 
   @shortdoc "Version patch + tag creation"
   def run(_args) do
-    Versions.increment(&File.read/1, &File.write/2, &patch/1, "mix.exs")
+    %Versions{
+      content_getter: &File.read/1,
+      content_setter: &File.write/2,
+      incrementer: &patch/1,
+      file_name: "mix.exs"
+    }
+    |> Versions.increment()
   end
 
   # private 
 
   defp patch([_major, _minor, patch] = version) do
-      patch
-      |> increment_old_patch
-      |> case do
-        {:ok, new_pre_release} ->
-          {:ok, construct_new_pre_release(version, new_pre_release)}
-      end
+    patch
+    |> increment_old_patch
+    |> case do
+      {:ok, new_pre_release} ->
+        {:ok, construct_new_pre_release(version, new_pre_release)}
+    end
   end
 
   defp construct_new_pre_release(values, new_pre_release) do
