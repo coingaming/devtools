@@ -14,23 +14,15 @@ defmodule Mix.Tasks.Devtools.Pre do
 
   # private 
 
-  defp pre_release(current_version) when is_binary(current_version) do
-    values = String.split(current_version, ".")
+  defp pre_release([_major, _minor, patch] = version) do
+    patch
+    |> increment_old_pre_release
+    |> case do
+      {:ok, new_pre_release} ->
+        {:ok, construct_new_pre_release(version, new_pre_release)}
 
-    if length(values) < 3 do
-      {:error, "can not get version number, check version format, it should be \"n.n.n\""}
-    else
-      [_major, _minor, patch] = values
-
-      patch
-      |> increment_old_pre_release
-      |> case do
-        {:ok, new_pre_release} ->
-          {:ok, construct_new_pre_release(values, new_pre_release)}
-
-        {:error, error} ->
-          {:error, error}
-      end
+      {:error, error} ->
+        {:error, error}
     end
   end
 

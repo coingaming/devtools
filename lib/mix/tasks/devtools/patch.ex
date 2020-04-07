@@ -14,21 +14,13 @@ defmodule Mix.Tasks.Devtools.Patch do
 
   # private 
 
-  defp patch(current_version) when is_binary(current_version) do
-    values = String.split(current_version, ".")
-
-    if length(values) < 3 do
-      {:error, "can not get version number, check version format, it should be \"n.n.n\""}
-    else
-      [_major, _minor, patch] = values
-
+  defp patch([_major, _minor, patch] = version) do
       patch
       |> increment_old_patch
       |> case do
         {:ok, new_pre_release} ->
-          {:ok, construct_new_pre_release(values, new_pre_release)}
+          {:ok, construct_new_pre_release(version, new_pre_release)}
       end
-    end
   end
 
   defp construct_new_pre_release(values, new_pre_release) do
