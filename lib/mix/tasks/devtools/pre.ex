@@ -1,11 +1,96 @@
 defmodule Mix.Tasks.Devtools.Pre do
   use Mix.Task
 
-  alias Mix.Tasks.Devtools.Common
+  require Logger
+
+  @version_regex ~r/version:\s\"(.*)\"/
+  @pre_release_regex ~r/(\d{1,})-(\d{1,})/
 
   @shortdoc "Version patch + tag creation"
   def run(_args) do
-    path = "#{Common.scripts_path()}/pre-release"
-    {_, 0} = System.cmd("bash", [path]) |> IO.inspect()
+    with {:ok, content} <- File.read("mix.exs"),
+         {:ok, current_version} <- get_current_version(content),
+         {:ok, new_version} <- pre_release(current_version),
+         {:ok, new_content} <- content_replace(content, current_version, new_version) do
+      File.write("mix.exs", new_content)
+    end
+  end
+
+  # private 
+
+  defp get_current_version(content) when is_binary(content) do
+    @version_regex
+    |> Regex.run(content)
+    |> case do
+      nil ->
+        {:error,
+         "version not found, it should be explicitly set in mix.exs as version: \"n.n.n\""}
+
+      values ->
+        if length(values) >= 2 do
+          [_, version] = values
+          {:ok, version}
+        else
+          {:error,
+           "mailformed version,  it should be explicitly set in mix.exs as version: \"n.n.n\""}
+        end
+    end
+  end
+
+  defp pre_release(current_version) when is_binary(current_version) do
+    values = String.split(current_version, ".")
+
+    if length(values) < 3 do
+      {:error, "can not get version number, check version format, it should be \"n.n.n\""}
+    else
+      [_major, _minor, patch] = values
+
+      patch
+      |> increment_old_pre_release
+      |> case do
+        {:ok, new_pre_release} ->
+          {:ok, construct_new_pre_release(values, new_pre_release)}
+
+        {:error, error} ->
+          {:error, error}
+      end
+    end
+  end
+
+  defp construct_new_pre_release(values, new_pre_release) do
+    [major, minor, _] = values
+    "#{major}.#{minor}.#{new_pre_release}"
+  end
+
+  defp increment_old_pre_release(old_pre_release) when is_binary(old_pre_release) do
+    @pre_release_regex
+    |> Regex.run(old_pre_release)
+    |> case do
+      nil ->
+        add_pre_release(old_pre_release)
+
+      values ->
+        increment_pre_release(values)
+    end
+  end
+
+  defp add_pre_release(patch) when is_binary(patch) do
+    {:ok, "#{patch}-0"}
+  end
+
+  defp increment_pre_release(values) when is_list(values) do
+    if length(values) == 3 do
+      [_everyting, current_patch, current_pre_release] = values
+      {int_val, _} = Integer.parse(current_pre_release)
+
+      {:ok, "#{current_patch}-#{int_val + 1}"}
+    else
+      {:error, "can not increment pre-release"}
+    end
+  end
+
+  defp content_replace(content, current_version, new_version) do
+    {:ok,
+     String.replace(content, "version: \"#{current_version}\"", "version: \"#{new_version}\"")}
   end
 end
