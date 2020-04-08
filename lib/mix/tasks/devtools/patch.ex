@@ -9,12 +9,7 @@ defmodule Mix.Tasks.Devtools.Patch do
 
   @shortdoc "Version patch + tag creation"
   def run(_args) do
-    %Versions{
-      content_getter: &File.read/1,
-      content_setter: &File.write/2,
-      incrementer: &patch/1,
-      file_name: "mix.exs"
-    }
+    %Versions{incrementer: &patch/1}
     |> Versions.increment()
   end
 

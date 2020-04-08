@@ -4,20 +4,18 @@ defmodule Mix.Devtools.Versions do
   alias __MODULE__, as: Versions
 
   @version_regex ~r/version:\s\"(.*)\"/
+  @file_name "mix.exs"
 
-  defstruct [:content_getter, :content_setter, :incrementer, :file_name]
+  defstruct [:incrementer]
 
   def increment(%Versions{
-        content_getter: content_getter,
-        content_setter: content_setter,
-        incrementer: incrementer,
-        file_name: file_name
+        incrementer: incrementer
       }) do
-    with {:ok, content} <- content_getter.(file_name),
+    with {:ok, content} <- File.read(@file_name),
          {:ok, [major, minor, patch] = current_version} <- get_current_version(content),
          {:ok, new_version} <- incrementer.(current_version),
          {:ok, new_content} <- content_replace(content, "#{major}.#{minor}.#{patch}", new_version) do
-      content_setter.(file_name, new_content)
+      File.write(@file_name, new_content)
     else
       error ->
         Logger.error("There was an error: #{inspect(error)}")
