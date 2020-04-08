@@ -7,7 +7,7 @@ defmodule Mix.Tasks.Devtools.Patch do
 
   @patch_regex ~r/(\d{1,})-(\d{1,})/
 
-  @shortdoc "Version patch + tag creation"
+  @shortdoc "Patch version increment"
   def run(_args) do
     %Versions{incrementer: &patch/1}
     |> Versions.increment()

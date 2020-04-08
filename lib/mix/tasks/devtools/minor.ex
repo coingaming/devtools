@@ -5,7 +5,7 @@ defmodule Mix.Tasks.Devtools.Minor do
 
   alias Mix.Devtools.Versions
 
-  @shortdoc "Version patch + tag creation"
+  @shortdoc "Minor version increment"
   def run(_args) do
     %Versions{incrementer: &minor/1}
     |> Versions.increment()

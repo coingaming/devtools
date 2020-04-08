@@ -7,7 +7,7 @@ defmodule Mix.Tasks.Devtools.Pre do
 
   @pre_release_regex ~r/(\d{1,})-(\d{1,})/
 
-  @shortdoc "Version patch + tag creation"
+  @shortdoc "Pre-release version increment"
   def run(_args) do
     %Versions{incrementer: &pre_release/1}
     |> Versions.increment()
