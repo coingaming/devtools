@@ -1,7 +1,7 @@
 defmodule Mix.Tasks.Devtools.DockerBuild do
   use Mix.Task
 
-  alias Mix.Tasks.Devtools.Common
+  alias Mix.Devtools.Common
 
   @shortdoc "Docker build"
   def run(args) do

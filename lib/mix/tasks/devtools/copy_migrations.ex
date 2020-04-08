@@ -3,7 +3,7 @@ defmodule Mix.Tasks.Devtools.CopyMigrations do
 
   require Logger
 
-  alias Mix.Tasks.Devtools.Common
+  alias Mix.Devtools.Common
 
   @shortdoc "Copy migrations"
   def run(_args) do

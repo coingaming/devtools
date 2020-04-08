@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Devtools.Common do
+defmodule Mix.Devtools.Common do
   def scripts_path do
     Path.join(File.cwd!(), "deps/devtools/scripts/")
   end
