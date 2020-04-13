@@ -16,7 +16,7 @@ defmodule Mix.Tasks.Devtools.Tag do
 
     System.cmd("git", ["add", @file_name])
     System.cmd("git", ["commit", "-m", "Update version in mix.exs to #{tag}"])
-    System.cmd("git", ["push", "origin", "master"])
+    System.cmd("git", ["push"])
 
     System.cmd("git", ["tag", "v#{tag}"])
     System.cmd("git", ["push", "--tags"])
