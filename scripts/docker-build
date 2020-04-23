@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
 app="$1"
 tag="$2"
@@ -9,6 +9,7 @@ if [ "$app" == "" ]; then
 fi
 
 if [ "$tag" != "" ]; then
+  echo "building $app"
   docker build \
     --build-arg HEX_API_KEY="$HEX_API_KEY" \
     --rm=false -t \
@@ -17,6 +18,8 @@ if [ "$tag" != "" ]; then
 else
   branch=$(git rev-parse --abbrev-ref HEAD | cut -f2 -d"/")
   branch=${branch:-master}
+
+  echo "building $app:$branch"
 
   docker build \
     --build-arg HEX_API_KEY="$HEX_API_KEY" \
