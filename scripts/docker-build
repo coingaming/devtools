@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 app="$1"
 tag="$2"
 
-if [ "$app" == "" ]; then
+if [ "$app" = "" ]; then
   echo "please specify app name, example: mix docker_build my-mega-app"
   exit 1
 fi
