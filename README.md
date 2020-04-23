@@ -33,6 +33,6 @@ end
 ```
 mix run -e "Mix.Tasks.Devtools.Patch.run([])"
 mix run -e "Mix.Tasks.Devtools.Tag.run({})"
-mix hex.publish
+MIX_ENV=dev mix hex.publish --organization coingaming
 ```
 
