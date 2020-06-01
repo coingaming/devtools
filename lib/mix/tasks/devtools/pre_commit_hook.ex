@@ -14,6 +14,7 @@ defmodule Mix.Tasks.Devtools.PreCommitHook do
     #!/bin/bash
     mix format
     mix credo
+    mix dialyzer --format dialyzer
     """
     |> write_file()
     |> change_file_permissions()
