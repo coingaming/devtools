@@ -24,7 +24,7 @@ by adding `devtools` to your list of dependencies in `mix.exs`:
 ```
 def deps do
   [
-    {:devtools, "~> 2.0.0"}
+    {:devtools, "~> 2.0.7"}
   ]
 end
 ```
@@ -34,6 +34,6 @@ end
 ```
 mix run -e "Mix.Tasks.Devtools.Patch.run([])"
 mix run -e "Mix.Tasks.Devtools.Tag.run({})"
-MIX_ENV=dev mix hex.publish --organization coingaming
+MIX_ENV=dev mix hex.publish
 ```
 
