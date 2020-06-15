@@ -14,6 +14,7 @@ mix devtools.remote_console my-mega-app orgname/image
 |mix devtools.patch| Will bump patch version and push to github. I.e. v1.1.1 -> v1.1.1 |
 |mix devtools.pre| Will bump or create pre-release version and push to github. I.e. v1.1.1 -> v1.1.1-0 or v1.1.1-0 -> v1.1.1-1 |
 |mix devtools.tag| Will create git tag with version from your mix.exs and push it to github|
+|mix devtools.init_test path/to/file/you/need/test/for.ex| Will create empty test file for file name you've provided|
 
 ## Installation
 
