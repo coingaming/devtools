@@ -5,7 +5,7 @@ defmodule Devtools.MixProject do
     [
       app: :devtools,
       version: "2.0.8",
-      elixir: "~> 1.12.0",
+      elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),
